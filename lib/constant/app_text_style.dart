@@ -15,37 +15,37 @@ abstract class AppTextStyle {
   }
 
   /// TitleLargeText == 22 Size
-  static Widget titleLargeText(context, text) {
+  static Widget titleLargeText(context, text,[color]) {
     return Text(
       text,
       style: Theme.of(context)
           .textTheme
           .titleLarge
-          ?.copyWith(color: AppColors.textColor, fontWeight: FontWeight.bold),
-      textAlign: TextAlign.center,
+          ?.copyWith(color: color ?? AppColors.textColor,),
+
     );
   }
 
-  /// TitleMediumText == 16 Size
+  /// TitleMediumText == 20 Size
   static Widget titleMediumText(context, text, [color]) {
     return Text(
       text,
       style: Theme.of(context)
           .textTheme
           .titleMedium
-          ?.copyWith(color: color ?? AppColors.textColor),
-      textAlign: TextAlign.center,
+          ?.copyWith(color: color ?? AppColors.textColor,fontSize: 20),
+
     );
   }
 
-  /// TitleSmallText == 14 Size
+  /// TitleSmallText == 16 Size
   static Widget titleSmallText(context, text, [color]) {
     return Text(text,
         style: Theme.of(context)
             .textTheme
             .titleSmall
-            ?.copyWith(color: color ?? AppColors.textColor),
-        textAlign: TextAlign.center);
+            ?.copyWith(color: color ?? AppColors.textColor,fontSize: 16),
+        );
   }
 
   /// LabelMediumText == 12 Size
