@@ -1,5 +1,6 @@
 abstract class AppStrings{
-  static final developerBranding ="Develop by Mirza Azmathullah Baig";
-  static final appLogo="assets/logo.png";
-  static final alQuran="Al-Quran";
+  static final String developerBranding ="Develop by Mirza Azmathullah Baig";
+  static final String appLogo="assets/logo.png";
+  static final String alQuran="Al-Quran";
+  static final String salam ="Assalamu alaykum";
 }
