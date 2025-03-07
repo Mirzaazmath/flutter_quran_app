@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quran_app/constant/app_strings.dart';
 import 'package:flutter_quran_app/constant/app_text_style.dart';
+import 'package:flutter_quran_app/screens/reading_screen.dart';
 import 'package:quran/quran.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -32,6 +33,14 @@ class HomeScreen extends StatelessWidget {
               itemCount: totalSurahCount,
               itemBuilder: (context, index) {
                 return ListTile(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ReadingScreen(surahIndex: index+1),
+                      ),
+                    );
+                  },
                   leading: CircleAvatar(
                     backgroundColor: Theme.of(context).primaryColor,
                     child: AppTextStyle.titleMediumText(
