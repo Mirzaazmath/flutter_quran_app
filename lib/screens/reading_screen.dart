@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_quran_app/screens/translation_dailog.dart';
 import 'package:just_audio/just_audio.dart';
@@ -19,8 +21,8 @@ class _ReadingScreenState extends State<ReadingScreen> {
   final ScrollController _scrollController = ScrollController();
   bool isPLaying = false;
   int verse = 0;
-  int selectedIndex=-1;
-  String selectedTranslation="";
+  int selectedIndex = -1;
+  String selectedTranslation = "";
   @override
   void initState() {
     super.initState();
@@ -29,9 +31,9 @@ class _ReadingScreenState extends State<ReadingScreen> {
         if (verse < getVerseCount(widget.surahIndex)) {
           setState(() {
             verse++;
-            if(selectedIndex==verse-1){
-              selectedIndex=-1;
-              selectedTranslation="";
+            if (selectedIndex == verse - 1) {
+              selectedIndex = -1;
+              selectedTranslation = "";
             }
           });
 
@@ -102,18 +104,51 @@ class _ReadingScreenState extends State<ReadingScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            if (verse == 0) {
-              verse = 1;
-            }
-            if (isPLaying) {
-              audioPlayer.pause();
+        onPressed: () async {
+          try {
+            final result = await InternetAddress.lookup('example.com');
+            if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+              setState(() {
+                if (verse == 0) {
+                  verse = 1;
+                }
+                if (isPLaying) {
+                  audioPlayer.pause();
+                } else {
+                  playSurahAudio(verse);
+                }
+                isPLaying = !isPLaying;
+              });
             } else {
-              playSurahAudio(verse);
+              final snackBar = SnackBar(
+                content: const Text('Please Connect to Internet'),
+                action: SnackBarAction(
+                  label: 'Okay',
+                  onPressed: () {
+                    // Some code to undo the change.
+                  },
+                ),
+              );
+
+              // Find the ScaffoldMessenger in the widget tree
+              // and use it to show a SnackBar.
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             }
-            isPLaying = !isPLaying;
-          });
+          } on SocketException catch (_) {
+            final snackBar = SnackBar(
+              content: const Text('Please Connect to Internet'),
+              action: SnackBarAction(
+                label: 'Okay',
+                onPressed: () {
+                  // Some code to undo the change.
+                },
+              ),
+            );
+
+            // Find the ScaffoldMessenger in the widget tree
+            // and use it to show a SnackBar.
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
         },
         backgroundColor: Theme.of(context).primaryColor,
         child:
@@ -137,28 +172,30 @@ class _ReadingScreenState extends State<ReadingScreen> {
         itemCount: getVerseCount(widget.surahIndex),
         itemBuilder: (context, index) {
           return InkWell(
-            onLongPress: (){
+            onLongPress: () {
               // To Prevent Live Translation
-              if(isPLaying && verse ==index+1){}else{
-              showDialog(
+              if (isPLaying && verse == index + 1) {
+              } else {
+                showDialog(
                   context: context,
                   barrierDismissible: true,
                   builder: (BuildContext context) {
                     // Custom Dialog to Add Task
-                    return CustomDialogBox(onSelect: (value){
-                      if(value.isNotEmpty){
-                        setState(() {
-                          // to prevent live translation
+                    return CustomDialogBox(
+                      onSelect: (value) {
+                        if (value.isNotEmpty) {
+                          setState(() {
+                            // to prevent live translation
 
                             selectedIndex = index;
-                            selectedTranslation=value;
-
-                        });
-                      }
-                    },);
-                  });
+                            selectedTranslation = value;
+                          });
+                        }
+                      },
+                    );
+                  },
+                );
               }
-
             },
             child: Stack(
               children: [
@@ -169,7 +206,17 @@ class _ReadingScreenState extends State<ReadingScreen> {
                     border: Border(bottom: BorderSide(color: Colors.grey)),
                   ),
                   child: Text(
-                      selectedIndex==index ?getVerseTranslation(widget.surahIndex,index+1,translation: language[selectedTranslation]!,): getVerse(widget.surahIndex, index + 1, verseEndSymbol: true),
+                    selectedIndex == index
+                        ? getVerseTranslation(
+                          widget.surahIndex,
+                          index + 1,
+                          translation: language[selectedTranslation]!,
+                        )
+                        : getVerse(
+                          widget.surahIndex,
+                          index + 1,
+                          verseEndSymbol: true,
+                        ),
                     strutStyle: StrutStyle(height: 4.5),
                     textAlign: TextAlign.end,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
@@ -180,18 +227,24 @@ class _ReadingScreenState extends State<ReadingScreen> {
                     ),
                   ),
                 ),
-                selectedIndex==index ? Positioned(
-                  bottom: 10,
-                    child: InkWell(
-                      onTap: (){
-                       setState(() {
-                         selectedIndex=-1;
-                         selectedTranslation="";
-                       });
-                      },
-                      child: CircleAvatar(backgroundColor: Colors.grey.shade300,child: Icon(Icons.close,color: Colors.black,),),
+                selectedIndex == index
+                    ? Positioned(
+                      bottom: 10,
+                      left: 10,
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            selectedIndex = -1;
+                            selectedTranslation = "";
+                          });
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: Colors.grey.shade300,
+                          child: Icon(Icons.close, color: Colors.black),
+                        ),
+                      ),
                     )
-                ):SizedBox(),
+                    : SizedBox(),
               ],
             ),
           );
