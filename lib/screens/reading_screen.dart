@@ -28,6 +28,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
          setState(() {
            verse++;
          });
+
           playSurahAudio(verse);
          if (_scrollController.hasClients && !(_scrollController.position.pixels == _scrollController.position.maxScrollExtent) ) {
            _scrollController.animateTo(
@@ -36,6 +37,11 @@ class _ReadingScreenState extends State<ReadingScreen> {
              curve: Curves.linear,
            );
          }
+        }else{
+          setState(() {
+            verse =0;
+            isPLaying =false;
+          });
         }
       }
     });
@@ -86,12 +92,21 @@ class _ReadingScreenState extends State<ReadingScreen> {
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
         setState(() {
+
           if(verse==0){
             verse =1;
           }
-          playSurahAudio(verse);
+          if(isPLaying){
+            audioPlayer.pause();
+
+          }else{
+            playSurahAudio(verse);
+          }
+          isPLaying =!isPLaying;
         });
-      },backgroundColor: Theme.of(context).primaryColor,child: Icon(Icons.play_arrow,color: Theme.of(context).primaryColorLight,),),
+      },backgroundColor: Theme.of(context).primaryColor,child:isPLaying?SizedBox(height: 30,
+          width: 30,
+          child: Image.asset("assets/notes.gif",color: Theme.of(context).primaryColorLight,)): Icon(Icons.play_arrow,color: Theme.of(context).primaryColorLight,),),
       body: ListView.builder(
           controller: _scrollController,
         padding:EdgeInsets.symmetric(vertical: 20),
