@@ -40,6 +40,8 @@ dependencies:
   google_fonts: ^6.2.1
   # For Small Storage
   shared_preferences: ^2.5.2
+  # For Audio Player
+  just_audio: ^0.9.46
 
 dev_dependencies:
   flutter_test:
