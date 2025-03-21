@@ -35,7 +35,13 @@ A new Flutter project.
 
 
 
-This project is a starting point for a Flutter application.
+<a href="your-apk-link-here" download>
+    <button style="background-color: green; color: white; padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer;">
+        ⬇ Download APK
+    </button>
+</a>
+
+
 
 A few resources to get you started if this is your first Flutter project:
 
