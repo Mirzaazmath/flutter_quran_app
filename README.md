@@ -29,7 +29,7 @@ A new Flutter project.
 
 # Result
 
-<img src ="https://github.com/Mirzaazmath/flutter_quran_app/blob/main/assets/output/output.gif" height="400">
+<img src ="https://github.com/Mirzaazmath/flutter_quran_app/blob/main/assets/output/result.gif" height="400">
 
 
 
