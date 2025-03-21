@@ -35,7 +35,7 @@ A new Flutter project.
 
 
 
-<a href="your-apk-link-here" download>
+<a href="https://github.com/Mirzaazmath/flutter_quran_app/blob/main/assets/output/app-release.apk" download>
     <button style="background-color: green; color: white; padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer;">
         ⬇ Download APK
     </button>
